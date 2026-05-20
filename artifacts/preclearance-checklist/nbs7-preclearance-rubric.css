@@ -321,17 +321,39 @@ body {
     break-inside: auto;
     page-break-inside: auto;
   }
+  .form-grid-2 {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.7rem 0.9rem !important;
+    align-items: start;
+  }
+  .form-field {
+    gap: 0.22rem;
+  }
+  .form-field label {
+    font-size: 0.67rem;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+  }
   .form-field input,
   .form-field textarea {
     border: none;
     border-bottom: 1px solid #aebcd4;
     border-radius: 0;
-    padding: 0.1rem 0;
+    padding: 0.22rem 0 0.28rem;
     background: #ffffff;
   }
   .form-field textarea { min-height: 60px; height: auto !important; resize: none; overflow: visible !important; }
   .form-field textarea { display: none !important; }
-  .form-print-value { display: block !important; }
+  .form-print-value {
+    display: block !important;
+    margin-top: 0.15rem;
+    min-height: 60px;
+    padding: 0.35rem 0;
+    border: none;
+    border-bottom: 1px solid #aebcd4;
+    background: #ffffff;
+  }
   .form-grid,
   .form-grid-2 {
     break-inside: auto;
