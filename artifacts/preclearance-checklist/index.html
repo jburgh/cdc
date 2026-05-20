@@ -133,6 +133,13 @@
         border-bottom: 1px solid var(--line);
       }
 
+      .section-actions {
+        margin-left: auto;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
       .section-icon {
         font-size: 1rem;
         flex-shrink: 0;
@@ -147,7 +154,25 @@
       .section-count {
         font-size: 0.8rem;
         color: var(--muted);
-        margin-left: auto;
+      }
+
+      .section-toggle-btn {
+        border: 1px solid #c6d8ef;
+        background: linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
+        color: #20466f;
+        border-radius: 8px;
+        font-size: 0.76rem;
+        font-weight: 700;
+        padding: 0.24rem 0.56rem;
+        cursor: pointer;
+      }
+
+      .section-toggle-btn:hover {
+        background: linear-gradient(180deg, #ffffff 0%, #e4f0ff 100%);
+      }
+
+      .section.section-collapsed .section-content {
+        display: none;
       }
 
       .section-note-wrap {
@@ -293,22 +318,37 @@
         flex-wrap: wrap;
       }
 
-      button {
+      .controls-top {
+        margin: 0 0 1rem;
+      }
+
+      .action-btn {
         font-size: 0.85rem;
-        background: var(--panel);
-        border: 1px solid #cdd8ea;
+        font-weight: 700;
+        color: #18314c;
+        background: linear-gradient(180deg, #ffffff 0%, #eaf3ff 100%);
+        border: 1px solid #b9d1ee;
         border-radius: 10px;
-        padding: 0.4rem 0.7rem;
+        padding: 0.48rem 0.82rem;
         cursor: pointer;
+        box-shadow: 0 4px 12px -8px rgba(21, 44, 78, 0.45);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
       }
 
-      button:hover {
-        background: #f8fbff;
+      .action-btn:hover {
+        background: linear-gradient(180deg, #ffffff 0%, #deedff 100%);
+        box-shadow: 0 7px 16px -10px rgba(21, 44, 78, 0.5);
+        transform: translateY(-1px);
       }
 
-      button[aria-pressed="true"] {
-        background: #edf6ff;
-        border-color: #b8d4f7;
+      .action-btn:active {
+        transform: translateY(0);
+      }
+
+      .action-btn[aria-pressed="true"] {
+        color: #0f4f85;
+        background: linear-gradient(180deg, #eef6ff 0%, #dcecff 100%);
+        border-color: #8cb4e6;
       }
 
       .ready-banner {
@@ -436,13 +476,22 @@
         </div>
       </section>
 
+      <div class="controls controls-top">
+        <button type="button" class="action-btn filter-toggle-btn" onclick="handleToggleFilter()" aria-pressed="false">Show incomplete only</button>
+        <button type="button" class="action-btn collapse-all-btn" onclick="handleToggleCollapseAll()">Collapse all sections</button>
+        <button type="button" class="action-btn" onclick="handlePrintChecklist()">Print checklist (PDF)</button>
+        <button type="button" class="action-btn" onclick="handleResetChecklists()">Reset checklists</button>
+        <button type="button" class="action-btn" onclick="handleResetForm()">Reset form</button>
+      </div>
+
       <div id="sections"></div>
 
       <div class="controls">
-        <button type="button" id="filter-btn" aria-pressed="false">Show incomplete only</button>
-        <button type="button" id="print-btn">Print checklist (PDF)</button>
-        <button type="button" id="reset-btn">Reset checklists</button>
-        <button type="button" id="clear-storage-btn">Reset form</button>
+        <button type="button" id="filter-btn" class="action-btn filter-toggle-btn" aria-pressed="false">Show incomplete only</button>
+        <button type="button" id="collapse-all-btn" class="action-btn collapse-all-btn">Collapse all sections</button>
+        <button type="button" id="print-btn" class="action-btn">Print checklist (PDF)</button>
+        <button type="button" id="reset-btn" class="action-btn">Reset checklists</button>
+        <button type="button" id="clear-storage-btn" class="action-btn">Reset form</button>
       </div>
       <p class="print-note">
         Tip: choose Save as PDF in your browser print dialog after selecting Print checklist.
@@ -452,6 +501,7 @@
     <script>
       const STORAGE_KEY = "nbs7_preclearance_checklist_v3";
       let showIncompleteOnly = false;
+      let collapsedSections = new Set();
 
       const sections = [
         {
@@ -579,7 +629,10 @@
               reviewSignoff: typeof metaSource.reviewSignoff === "string" ? metaSource.reviewSignoff : ""
             },
             ui: {
-              showIncompleteOnly: Boolean(uiSource.showIncompleteOnly)
+              showIncompleteOnly: Boolean(uiSource.showIncompleteOnly),
+              collapsedSectionIds: Array.isArray(uiSource.collapsedSectionIds)
+                ? uiSource.collapsedSectionIds.filter((id) => typeof id === "string")
+                : []
             }
           };
         } catch (_) {
@@ -612,7 +665,8 @@
             reviewSignoff: document.getElementById("review-signoff").value
           },
           ui: {
-            showIncompleteOnly
+            showIncompleteOnly,
+            collapsedSectionIds: Array.from(collapsedSections)
           },
           lastUpdated: new Date().toISOString()
         };
@@ -629,9 +683,10 @@
       }
 
       function setFilterButtonState() {
-        const filterBtn = document.getElementById("filter-btn");
-        filterBtn.setAttribute("aria-pressed", String(showIncompleteOnly));
-        filterBtn.textContent = showIncompleteOnly ? "Show all items" : "Show incomplete only";
+        document.querySelectorAll(".filter-toggle-btn").forEach((filterBtn) => {
+          filterBtn.setAttribute("aria-pressed", String(showIncompleteOnly));
+          filterBtn.textContent = showIncompleteOnly ? "Show all items" : "Show incomplete only";
+        });
       }
 
       function initializeHeaderFields(savedState) {
@@ -642,7 +697,38 @@
         document.getElementById("review-date").value = savedState.meta.reviewDate || "";
         document.getElementById("review-signoff").value = savedState.meta.reviewSignoff || "";
         showIncompleteOnly = Boolean(savedState.ui.showIncompleteOnly);
+        collapsedSections = new Set(savedState.ui.collapsedSectionIds || []);
         setFilterButtonState();
+      }
+
+      function setCollapseAllButtonsState() {
+        const allCollapsed = sections.every((section) => collapsedSections.has(section.id));
+        document.querySelectorAll(".collapse-all-btn").forEach((btn) => {
+          btn.textContent = allCollapsed ? "Expand all sections" : "Collapse all sections";
+        });
+      }
+
+      function applySectionCollapseState(sectionId) {
+        const sectionEl = document.getElementById("section-" + sectionId);
+        if (!sectionEl) {
+          return;
+        }
+
+        const isCollapsed = collapsedSections.has(sectionId);
+        sectionEl.classList.toggle("section-collapsed", isCollapsed);
+
+        const toggleBtn = sectionEl.querySelector(".section-toggle-btn");
+        if (toggleBtn) {
+          toggleBtn.textContent = isCollapsed ? "Expand" : "Collapse";
+          toggleBtn.setAttribute("aria-expanded", String(!isCollapsed));
+        }
+      }
+
+      function applyAllSectionCollapseState() {
+        sections.forEach((section) => {
+          applySectionCollapseState(section.id);
+        });
+        setCollapseAllButtonsState();
       }
 
       function buildSections() {
@@ -657,9 +743,13 @@
             <div class="section-header">
               <span class="section-icon" aria-hidden="true">${section.icon}</span>
               <p class="section-title">${section.title}</p>
-              <span class="section-count" id="count-${section.id}"></span>
+              <div class="section-actions">
+                <span class="section-count" id="count-${section.id}"></span>
+                <button type="button" class="section-toggle-btn" data-section-id="${section.id}" aria-expanded="true">Collapse</button>
+              </div>
             </div>
-            <div>
+            <div class="section-content">
+              <div>
               ${section.items
                 .map(
                   (item) => `
@@ -674,21 +764,49 @@
               `
                 )
                 .join("")}
+              </div>
+              <div class="section-note-wrap">
+                <label for="note-${section.id}">${section.title} notes</label>
+                <textarea
+                  class="section-note"
+                  id="note-${section.id}"
+                  placeholder="Add notes, references, reviewer comments, or follow-up actions for this section."
+                >${savedState.notes[section.id] || ""}</textarea>
+              </div>
+              <p class="section-filter-empty">All items in this section are already complete.</p>
             </div>
-            <div class="section-note-wrap">
-              <label for="note-${section.id}">${section.title} notes</label>
-              <textarea
-                class="section-note"
-                id="note-${section.id}"
-                placeholder="Add notes, references, reviewer comments, or follow-up actions for this section."
-              >${savedState.notes[section.id] || ""}</textarea>
-            </div>
-            <p class="section-filter-empty">All items in this section are already complete.</p>
           `;
           container.appendChild(div);
         });
 
         initializeHeaderFields(savedState);
+        applyAllSectionCollapseState();
+      }
+
+      function toggleSectionCollapse(sectionId) {
+        if (collapsedSections.has(sectionId)) {
+          collapsedSections.delete(sectionId);
+        } else {
+          collapsedSections.add(sectionId);
+        }
+
+        applySectionCollapseState(sectionId);
+        setCollapseAllButtonsState();
+        saveState();
+      }
+
+      function handleToggleCollapseAll() {
+        const allCollapsed = sections.every((section) => collapsedSections.has(section.id));
+        if (allCollapsed) {
+          collapsedSections.clear();
+        } else {
+          sections.forEach((section) => {
+            collapsedSections.add(section.id);
+          });
+        }
+
+        applyAllSectionCollapseState();
+        saveState();
       }
 
       function applyIncompleteFilter() {
@@ -768,12 +886,34 @@
           document.getElementById("review-date").value = "";
           document.getElementById("review-signoff").value = "";
           showIncompleteOnly = false;
+          collapsedSections.clear();
           setFilterButtonState();
+          setCollapseAllButtonsState();
         } else {
           saveState();
         }
 
         updateProgress();
+      }
+
+      function handleResetChecklists() {
+        resetAll(false);
+      }
+
+      function handleResetForm() {
+        resetAll(true);
+      }
+
+      function handleToggleFilter() {
+        showIncompleteOnly = !showIncompleteOnly;
+        setFilterButtonState();
+        saveState();
+        updateProgress();
+      }
+
+      function handlePrintChecklist() {
+        saveState();
+        window.print();
       }
 
       function bindEvents() {
@@ -820,19 +960,18 @@
           });
         });
 
-        document.getElementById("reset-btn").addEventListener("click", () => resetAll(false));
+        document.getElementById("reset-btn").addEventListener("click", handleResetChecklists);
         document
           .getElementById("clear-storage-btn")
-          .addEventListener("click", () => resetAll(true));
-        document.getElementById("filter-btn").addEventListener("click", () => {
-          showIncompleteOnly = !showIncompleteOnly;
-          setFilterButtonState();
-          saveState();
-          updateProgress();
-        });
-        document.getElementById("print-btn").addEventListener("click", () => {
-          saveState();
-          window.print();
+          .addEventListener("click", handleResetForm);
+        document.getElementById("filter-btn").addEventListener("click", handleToggleFilter);
+        document.getElementById("collapse-all-btn").addEventListener("click", handleToggleCollapseAll);
+        document.getElementById("print-btn").addEventListener("click", handlePrintChecklist);
+
+        document.querySelectorAll(".section-toggle-btn").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            toggleSectionCollapse(btn.getAttribute("data-section-id"));
+          });
         });
       }
 
