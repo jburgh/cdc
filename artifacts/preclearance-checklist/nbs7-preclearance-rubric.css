@@ -108,6 +108,22 @@ body {
 
 .form-field textarea { min-height: 90px; resize: vertical; line-height: 1.5; }
 
+.form-print-value {
+  display: none;
+  width: 100%;
+  min-height: 90px;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid #cfd9e8;
+  border-radius: 8px;
+  background: #fbfdff;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
 /* Tiers */
 .tier-block { margin-bottom: 2rem; }
 
@@ -314,6 +330,8 @@ body {
     background: #ffffff;
   }
   .form-field textarea { min-height: 60px; height: auto !important; resize: none; overflow: visible !important; }
+  .form-field textarea { display: none !important; }
+  .form-print-value { display: block !important; }
   .form-grid,
   .form-grid-2 {
     break-inside: auto;

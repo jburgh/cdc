@@ -2,6 +2,10 @@ const STORAGE_KEY = "nbs7_preclearance_checklist_v6";
 let showIncompleteOnly = false;
 let collapsedSections = new Set();
 let printTextareaSnapshots = [];
+const printMirrorFields = [
+  { sourceId: "tracked-changes", mirrorId: "tracked-changes-print" },
+  { sourceId: "submission-notes", mirrorId: "submission-notes-print" }
+];
 
 const tier1Sections = [
   {
@@ -132,6 +136,7 @@ function saveState() {
     var el = document.getElementById(id);
     if (el) state.meta[id] = el.value;
   });
+  syncPrintMirrors();
   localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
 }
 
@@ -146,6 +151,16 @@ function restoreHandoffFields(meta) {
   handoffFields.forEach(function(id) {
     var el = document.getElementById(id);
     if (el && meta[id] !== undefined) el.value = meta[id];
+  });
+}
+
+function syncPrintMirrors() {
+  printMirrorFields.forEach(function(pair) {
+    var source = document.getElementById(pair.sourceId);
+    var mirror = document.getElementById(pair.mirrorId);
+    if (source && mirror) {
+      mirror.textContent = source.value || "";
+    }
   });
 }
 
@@ -294,6 +309,7 @@ function resetAll(clearForm) {
   } else {
     saveState();
   }
+  syncPrintMirrors();
   updateProgress();
 }
 
@@ -323,6 +339,7 @@ function restoreTextareasAfterPrint() {
 
 function printChecklist() {
   saveState();
+  syncPrintMirrors();
   expandTextareasForPrint();
   window.print();
 
@@ -347,6 +364,11 @@ function bindEvents() {
   handoffFields.forEach(function(id) {
     var el = document.getElementById(id);
     if (el) el.addEventListener("input", saveState);
+  });
+
+  printMirrorFields.forEach(function(pair) {
+    var source = document.getElementById(pair.sourceId);
+    if (source) source.addEventListener("input", syncPrintMirrors);
   });
 
   document.querySelectorAll(".filter-toggle-btn").forEach(function(btn) {
@@ -384,4 +406,5 @@ function bindEvents() {
 
 buildSections();
 bindEvents();
+syncPrintMirrors();
 updateProgress();
