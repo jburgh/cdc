@@ -337,14 +337,8 @@ body {
   }
   .form-field input,
   .form-field textarea {
-    border: none;
-    border-bottom: 1px solid #aebcd4;
-    border-radius: 0;
-    padding: 0.22rem 0 0.28rem;
-    background: #ffffff;
+    display: none !important;
   }
-  .form-field textarea { min-height: 60px; height: auto !important; resize: none; overflow: visible !important; }
-  .form-field textarea { display: none !important; }
   .form-print-value {
     display: block !important;
     margin-top: 0.15rem;
