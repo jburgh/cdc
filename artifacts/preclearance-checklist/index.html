@@ -3,993 +3,126 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NBS 7 Pre-clearance Checklist</title>
+    <title>NBS 7 Content Pre-clearance Rubric</title>
     <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;700&display=swap" rel="stylesheet" />
-
-    <style>
-      :root {
-        --bg: #f4f7fb;
-        --panel: #ffffff;
-        --ink: #1f2b3d;
-        --muted: #5f6f87;
-        --line: #d8e1ef;
-        --ok-bg: #e6f5ec;
-        --ok-line: #9ad1ae;
-        --ok-ink: #1f6b3d;
-        --required-bg: #feecec;
-        --required-ink: #9b1c1c;
-        --escalate-bg: #fff7e8;
-        --escalate-ink: #9b5f00;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body {
-        margin: 0;
-        font-family: "Manrope", "Avenir Next", "Segoe UI", sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(circle at 6% 0%, #e8f0ff 0, transparent 25%),
-          radial-gradient(circle at 88% 0%, #e6fff2 0, transparent 23%),
-          var(--bg);
-      }
-
-      .rubric-wrap {
-        max-width: 920px;
-        margin: 0 auto;
-        padding: 2rem 1rem 2.75rem;
-      }
-
-      .rubric-header {
-        margin-bottom: 1.6rem;
-      }
-
-      .rubric-header h1 {
-        margin: 0 0 0.35rem;
-        font-family: "Fraunces", "Georgia", serif;
-        font-size: clamp(1.55rem, 2.9vw, 2.1rem);
-        line-height: 1.2;
-      }
-
-      .rubric-header p {
-        margin: 0;
-        font-size: 0.96rem;
-        color: var(--muted);
-      }
-
-      .rubric-header .meta-nav {
-        margin-top: 1rem;
-        font-size: 0.9rem;
-      }
-
-      .meta-nav a {
-        color: #0a5a49;
-      }
-
-      .print-header-block {
-        margin-bottom: 1rem;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 0.8rem;
-      }
-
-      .print-header-block h2 {
-        margin: 0 0 0.65rem;
-        font-size: 0.95rem;
-      }
-
-      .print-header-fields {
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 0.65rem;
-      }
-
-      @media (max-width: 980px) {
-        .print-header-fields {
-          grid-template-columns: repeat(2, minmax(0, 1fr));
-        }
-      }
-
-      @media (max-width: 640px) {
-        .print-header-fields {
-          grid-template-columns: 1fr;
-        }
-      }
-
-      .print-header-field label {
-        display: block;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        color: var(--muted);
-        font-weight: 700;
-        margin-bottom: 0.35rem;
-      }
-
-      .print-header-field input {
-        width: 100%;
-        border: 1px solid #cfd9e8;
-        border-radius: 8px;
-        padding: 0.45rem 0.55rem;
-        font: inherit;
-        font-size: 0.9rem;
-        background: #fbfdff;
-        color: var(--ink);
-      }
-
-      .print-header-field input:focus {
-        outline: 2px solid #9dc8ff;
-        outline-offset: 1px;
-      }
-
-      .section {
-        margin-bottom: 1.4rem;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 14px;
-        padding: 0.8rem;
-      }
-
-      .section-header {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 8px;
-        padding-bottom: 7px;
-        border-bottom: 1px solid var(--line);
-      }
-
-      .section-actions {
-        margin-left: auto;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-
-      .section-icon {
-        font-size: 1rem;
-        flex-shrink: 0;
-      }
-
-      .section-title {
-        margin: 0;
-        font-size: 1rem;
-        font-weight: 700;
-      }
-
-      .section-count {
-        font-size: 0.8rem;
-        color: var(--muted);
-      }
-
-      .section-toggle-btn {
-        border: 1px solid #c6d8ef;
-        background: linear-gradient(180deg, #ffffff 0%, #eef5ff 100%);
-        color: #20466f;
-        border-radius: 8px;
-        font-size: 0.76rem;
-        font-weight: 700;
-        padding: 0.24rem 0.56rem;
-        cursor: pointer;
-      }
-
-      .section-toggle-btn:hover {
-        background: linear-gradient(180deg, #ffffff 0%, #e4f0ff 100%);
-      }
-
-      .section.section-collapsed .section-content {
-        display: none;
-      }
-
-      .section-note-wrap {
-        margin-top: 0.7rem;
-        padding-top: 0.65rem;
-        border-top: 1px dashed var(--line);
-      }
-
-      .section-note-wrap label {
-        display: block;
-        font-size: 0.78rem;
-        letter-spacing: 0.03em;
-        text-transform: uppercase;
-        color: var(--muted);
-        margin-bottom: 0.4rem;
-        font-weight: 700;
-      }
-
-      .section-note {
-        width: 100%;
-        min-height: 86px;
-        resize: vertical;
-        border: 1px solid #cfd9e8;
-        border-radius: 10px;
-        padding: 0.55rem 0.65rem;
-        font: inherit;
-        font-size: 0.9rem;
-        line-height: 1.4;
-        color: var(--ink);
-        background: #fbfdff;
-      }
-
-      .section-note:focus {
-        outline: 2px solid #9dc8ff;
-        outline-offset: 1px;
-      }
-
-      .section-filter-empty {
-        display: none;
-        margin: 0.3rem 0 0;
-        font-size: 0.82rem;
-        color: var(--muted);
-        font-style: italic;
-      }
-
-      .section.section-empty .section-filter-empty {
-        display: block;
-      }
-
-      .item {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 8px 8px;
-        border-radius: 10px;
-        cursor: pointer;
-        transition: background 0.15s;
-      }
-
-      .item:hover {
-        background: #f8fbff;
-      }
-
-      .item input[type="checkbox"] {
-        margin-top: 3px;
-        flex-shrink: 0;
-        width: 16px;
-        height: 16px;
-        cursor: pointer;
-      }
-
-      .item label {
-        font-size: 0.93rem;
-        line-height: 1.45;
-        cursor: pointer;
-        flex: 1;
-      }
-
-      .item.checked label {
-        color: var(--muted);
-        text-decoration: line-through;
-        text-decoration-color: #b2bfd3;
-      }
-
-      .item.filtered-hide {
-        display: none;
-      }
-
-      .badge {
-        display: inline-block;
-        font-size: 0.7rem;
-        font-weight: 700;
-        padding: 2px 8px;
-        border-radius: 999px;
-        margin-left: 6px;
-        vertical-align: middle;
-      }
-
-      .badge-required {
-        background: var(--required-bg);
-        color: var(--required-ink);
-      }
-
-      .badge-escalate {
-        background: var(--escalate-bg);
-        color: var(--escalate-ink);
-      }
-
-      .progress-bar-wrap {
-        margin-bottom: 1.4rem;
-        background: var(--panel);
-        border: 1px solid var(--line);
-        border-radius: 12px;
-        padding: 0.85rem;
-      }
-
-      .progress-meta {
-        display: flex;
-        justify-content: space-between;
-        font-size: 0.84rem;
-        color: var(--muted);
-        margin-bottom: 6px;
-      }
-
-      .progress-track {
-        height: 8px;
-        background: #eef2f9;
-        border-radius: 99px;
-        overflow: hidden;
-      }
-
-      .progress-fill {
-        height: 100%;
-        background: linear-gradient(90deg, #1b8f6e, #23b889);
-        border-radius: 99px;
-        transition: width 0.3s ease;
-      }
-
-      .controls {
-        display: flex;
-        gap: 10px;
-        margin-top: 1rem;
-        flex-wrap: wrap;
-      }
-
-      .controls-top {
-        margin: 0 0 1rem;
-      }
-
-      .action-btn {
-        font-size: 0.85rem;
-        font-weight: 700;
-        color: #18314c;
-        background: linear-gradient(180deg, #ffffff 0%, #eaf3ff 100%);
-        border: 1px solid #b9d1ee;
-        border-radius: 10px;
-        padding: 0.48rem 0.82rem;
-        cursor: pointer;
-        box-shadow: 0 4px 12px -8px rgba(21, 44, 78, 0.45);
-        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
-      }
-
-      .action-btn:hover {
-        background: linear-gradient(180deg, #ffffff 0%, #deedff 100%);
-        box-shadow: 0 7px 16px -10px rgba(21, 44, 78, 0.5);
-        transform: translateY(-1px);
-      }
-
-      .action-btn:active {
-        transform: translateY(0);
-      }
-
-      .action-btn[aria-pressed="true"] {
-        color: #0f4f85;
-        background: linear-gradient(180deg, #eef6ff 0%, #dcecff 100%);
-        border-color: #8cb4e6;
-      }
-
-      .ready-banner {
-        display: none;
-        align-items: center;
-        gap: 8px;
-        background: var(--ok-bg);
-        border: 1px solid var(--ok-line);
-        border-radius: 12px;
-        padding: 0.7rem 0.9rem;
-        margin-bottom: 1rem;
-        font-size: 0.92rem;
-        color: var(--ok-ink);
-        font-weight: 700;
-      }
-
-      .print-note {
-        margin-top: 0.8rem;
-        font-size: 0.8rem;
-        color: var(--muted);
-      }
-
-      @media print {
-        body {
-          background: #ffffff;
-          font-size: 11pt;
-        }
-
-        .rubric-wrap {
-          max-width: none;
-          margin: 0;
-          padding: 0;
-        }
-
-        .controls,
-        .meta-nav,
-        .print-note {
-          display: none;
-        }
-
-        .print-header-block {
-          margin-bottom: 0.9rem;
-        }
-
-        .print-header-field input {
-          border: none;
-          border-bottom: 1px solid #aebcd4;
-          border-radius: 0;
-          padding: 0.1rem 0;
-          background: #ffffff;
-        }
-
-        .section,
-        .progress-bar-wrap {
-          break-inside: avoid;
-          border-color: #c7d2e5;
-          box-shadow: none;
-        }
-
-        .item:hover {
-          background: transparent;
-        }
-
-        .section-note {
-          border-color: #c7d2e5;
-          background: #ffffff;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="nbs7-preclearance-rubric.css" />
   </head>
   <body>
     <main class="rubric-wrap">
       <header class="rubric-header">
-        <h1>NBS 7 Admin Guide pre-clearance rubric</h1>
-        <p>
-          Complete this checklist before eClearance submission. Required items are
-          blocking. Escalate items must be routed before submission.
-        </p>
+        <h1>NBS 7 Content pre-clearance rubric</h1>
+        <p>Complete both tiers before eClearance submission. Attach the printed PDF to the eClearance package.</p>
         <p class="meta-nav">
           <a href="../../">Back to materials hub</a> | <a href="../">All artifacts</a>
         </p>
       </header>
 
-      <section class="print-header-block" aria-label="Reviewer details for printed copy">
-        <h2>Reviewer header</h2>
-        <div class="print-header-fields">
-          <div class="print-header-field">
+      <!-- Submission details -->
+      <section class="form-block" aria-label="Submission details">
+        <h2>Submission details</h2>
+        <div class="form-grid-2">
+          <div class="form-field">
             <label for="author-name">Author name</label>
             <input type="text" id="author-name" placeholder="Enter author name" />
           </div>
-          <div class="print-header-field">
+          <div class="form-field">
+            <label for="review-date">Completion date</label>
+            <input type="date" id="review-date" />
+          </div>
+          <div class="form-field">
             <label for="content-title">Content title</label>
             <input type="text" id="content-title" placeholder="Enter content title" />
           </div>
-          <div class="print-header-field">
+          <div class="form-field">
             <label for="content-link">Content link</label>
-            <input type="url" id="content-link" placeholder="https://example.org/content" />
+            <input type="url" id="content-link" placeholder="https://" />
           </div>
-          <div class="print-header-field">
-            <label for="reviewer-name">Reviewer name</label>
-            <input type="text" id="reviewer-name" placeholder="Enter reviewer name" />
+          <div class="form-field">
+            <label for="jira-tickets">Jira link</label>
+            <input type="url" id="jira-tickets" value="https://cdc-nbs.atlassian.net/browse/STLT-" />
           </div>
-          <div class="print-header-field">
-            <label for="review-date">Review date</label>
-            <input type="date" id="review-date" />
+          <div class="form-field">
+            <label for="github-pr">GitHub PR or branch</label>
+            <input type="url" id="github-pr" value="https://github.com/CDCgov/NEDSS-SystemAdminGuide/" />
           </div>
-          <div class="print-header-field">
-            <label for="review-signoff">Sign-off</label>
-            <input type="text" id="review-signoff" placeholder="Approved / Needs updates" />
+          <div class="form-field full-width">
+            <label for="tracked-changes">Changes made</label>
+            <textarea id="tracked-changes" placeholder="Describe what changed from the previous version, or state this is new content."></textarea>
+          </div>
+          <div class="form-field full-width">
+            <label for="submission-notes">Submission notes</label>
+            <textarea id="submission-notes" placeholder=" Note any open questions, cross-clearance triggers, or deferred items."></textarea>
           </div>
         </div>
       </section>
-
-      <div class="ready-banner" id="ready-banner" role="status" aria-live="polite">
-        Complete: all rubric items are checked.
-      </div>
-
-      <section class="progress-bar-wrap" aria-label="Checklist progress">
-        <div class="progress-meta">
-          <span>Progress</span>
-          <span id="progress-label">0 of 0 items</span>
-        </div>
-        <div class="progress-track">
-          <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
-        </div>
-      </section>
-
-      <div class="controls controls-top">
-        <button type="button" class="action-btn filter-toggle-btn" onclick="handleToggleFilter()" aria-pressed="false">Show incomplete only</button>
-        <button type="button" class="action-btn collapse-all-btn" onclick="handleToggleCollapseAll()">Collapse all sections</button>
-        <button type="button" class="action-btn" onclick="handlePrintChecklist()">Print checklist (PDF)</button>
-        <button type="button" class="action-btn" onclick="handleResetChecklists()">Reset checklists</button>
-        <button type="button" class="action-btn" onclick="handleResetForm()">Reset form</button>
-      </div>
-
-      <div id="sections"></div>
 
       <div class="controls">
-        <button type="button" id="filter-btn" class="action-btn filter-toggle-btn" aria-pressed="false">Show incomplete only</button>
-        <button type="button" id="collapse-all-btn" class="action-btn collapse-all-btn">Collapse all sections</button>
-        <button type="button" id="print-btn" class="action-btn">Print checklist (PDF)</button>
-        <button type="button" id="reset-btn" class="action-btn">Reset checklists</button>
-        <button type="button" id="clear-storage-btn" class="action-btn">Reset form</button>
+        <button type="button" class="action-btn filter-toggle-btn" aria-pressed="false">Show incomplete only</button>
+        <button type="button" class="action-btn collapse-all-btn">Collapse all sections</button>
+        <button type="button" class="action-btn print-btn">Print / Save PDF</button>
+        <button type="button" class="action-btn reset-checklists-btn">Reset checklists</button>
+        <button type="button" class="action-btn reset-form-btn">Reset form</button>
       </div>
-      <p class="print-note">
-        Tip: choose Save as PDF in your browser print dialog after selecting Print checklist.
-      </p>
+
+      <!-- Tier 1: eClearance requirements -->
+      <div class="tier-block" data-tier="1">
+        <div class="tier-header">
+          <h2>eClearance requirements</h2>
+          <p>Blocking — must pass before CDC eClearance submission</p>
+        </div>
+        <div class="ready-banner ready-banner-tier1" id="ready-banner-tier1" role="status" aria-live="polite">
+          ✓ eClearance requirements complete
+        </div>
+        <section class="progress-bar-wrap" aria-label="eClearance requirements progress">
+          <div class="progress-meta">
+            <span>Progress</span>
+            <span id="progress-label-tier1">0 of 0 items</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill progress-fill-tier1" id="progress-fill-tier1" style="width: 0%"></div>
+          </div>
+        </section>
+        <div id="sections-tier1"></div>
+      </div>
+
+      <hr class="tier-divider" />
+
+      <!-- Tier 2: NBS 7 content standards -->
+      <div class="tier-block" data-tier="2">
+        <div class="tier-header">
+          <h2>NBS 7 content standards</h2>
+          <p>Required for Skylight handoff — not a CDC gate</p>
+        </div>
+        <div class="ready-banner ready-banner-tier2" id="ready-banner-tier2" role="status" aria-live="polite">
+          ✓ NBS 7 content standards complete
+        </div>
+        <section class="progress-bar-wrap" aria-label="NBS 7 content standards progress">
+          <div class="progress-meta">
+            <span>Progress</span>
+            <span id="progress-label-tier2">0 of 0 items</span>
+          </div>
+          <div class="progress-track">
+            <div class="progress-fill progress-fill-tier2" id="progress-fill-tier2" style="width: 0%"></div>
+          </div>
+        </section>
+        <div id="sections-tier2"></div>
+      </div>
+
+      <hr class="tier-divider" />
+
+      <div class="controls controls-bottom">
+        <button type="button" class="action-btn filter-toggle-btn" aria-pressed="false">Show incomplete only</button>
+        <button type="button" class="action-btn collapse-all-btn">Collapse all sections</button>
+        <button type="button" class="action-btn print-btn">Print / Save PDF</button>
+        <button type="button" class="action-btn reset-checklists-btn">Reset checklists</button>
+        <button type="button" class="action-btn reset-form-btn">Reset form</button>
+      </div>
+      <p class="print-note">Tip: choose <strong>Save as PDF</strong> in your browser print dialog after selecting Print / Save PDF.</p>
     </main>
 
-    <script>
-      const STORAGE_KEY = "nbs7_preclearance_checklist_v3";
-      let showIncompleteOnly = false;
-      let collapsedSections = new Set();
-
-      const sections = [
-        {
-          id: "accuracy",
-          icon: "🔬",
-          title: "Technical accuracy",
-          items: [
-            { id: "a1", text: "All steps, commands, and configurations have been tested or verified against the current NBS 7 environment.", badges: ["required"] },
-            { id: "a2", text: "Version-specific details (software versions, file paths, port numbers) are correct and explicitly stated.", badges: ["required"] },
-            { id: "a3", text: "Any prerequisites or dependencies are listed before the procedure begins.", badges: [] },
-            { id: "a4", text: "Expected outcomes or system responses are described so the reader knows when a step succeeded.", badges: [] },
-            { id: "a5", text: "Technical claims that go beyond standard NBS 7 configuration have been verified with a subject-matter expert.", badges: [] }
-          ]
-        },
-        {
-          id: "audience",
-          icon: "👥",
-          title: "Audience fit (STLT system administrators)",
-          items: [
-            { id: "b1", text: "Content assumes the reader is a system administrator at a state, tribal, local, or territorial health department, not a developer or CDC staff member.", badges: [] },
-            { id: "b2", text: "Acronyms are spelled out on first use in each article. CDC-internal acronyms that STLT audiences may not know are defined or avoided.", badges: ["required"] },
-            { id: "b3", text: "The content does not assume familiarity with CDC internal systems, organizational structure, or processes.", badges: [] },
-            { id: "b4", text: "Where relevant, the content acknowledges variation across STLT environments (for example, different cloud providers or OS configurations).", badges: [] }
-          ]
-        },
-        {
-          id: "policy",
-          icon: "🛡",
-          title: "CDC policy alignment",
-          items: [
-            { id: "c1", text: "Content does not contradict current NBS 7 or CDC recommendations, guidelines, or official positions.", badges: ["required"] },
-            { id: "c2", text: "If the content describes a change from previous guidance, the change is flagged and the rationale is documented in the submission notes.", badges: ["required"] },
-            { id: "c3", text: "No statements imply CDC endorsement of third-party products, vendors, or configurations. References to third-party tools are neutral and descriptive only.", badges: ["required"] },
-            { id: "c4", text: "If this content includes credentials, access tokens, access control configurations, or vulnerability details, I have contacted CDC partners before submitting.", badges: ["escalate"] }
-          ]
-        },
-        {
-          id: "completeness",
-          icon: "¶",
-          title: "Completeness and structure",
-          items: [
-            { id: "d1", text: "The article has a clear purpose statement or introduction that tells the reader what they will accomplish.", badges: [] },
-            { id: "d2", text: "All procedures are complete end-to-end with no missing or implied steps.", badges: ["required"] },
-            { id: "d3", text: "Edge cases, known limitations, or troubleshooting guidance are included where a reader is likely to get stuck.", badges: [] },
-            { id: "d4", text: "Related articles or prerequisites are linked where relevant.", badges: [] },
-            { id: "d5", text: "The article does not contain placeholder text, unresolved comments, or TODO content.", badges: ["required"] }
-          ]
-        },
-        {
-          id: "style",
-          icon: "✍",
-          title: "Plain language and style",
-          items: [
-            { id: "e1", text: "Procedures are written in imperative mood (for example, Select the configuration file) and not passive voice.", badges: [] },
-            { id: "e2", text: "Sentences are concise. Filler phrases (simply, just, please, in order to) have been removed.", badges: [] },
-            { id: "e3", text: "Technical terms are used consistently throughout the article.", badges: [] },
-            { id: "e4", text: "UI element names match exactly what appears in the NBS 7 interface.", badges: [] },
-            { id: "e5", text: "Global English conventions are followed with short, literal phrasing.", badges: [] }
-          ]
-        },
-        {
-          id: "mechanics",
-          icon: "🔧",
-          title: "Mechanics and formatting",
-          items: [
-            { id: "f1", text: "Spelling and grammar have been checked.", badges: [] },
-            { id: "f2", text: "Headings follow the established hierarchy and sentence case conventions.", badges: [] },
-            { id: "f3", text: "Code blocks, commands, and file paths are formatted consistently.", badges: [] },
-            { id: "f4", text: "Images or screenshots are current, annotated where needed, and include alt text.", badges: [] },
-            { id: "f5", text: "All internal links have been tested and resolve correctly in the current branch.", badges: [] }
-          ]
-        },
-        {
-          id: "submission",
-          icon: "📤",
-          title: "Submission readiness",
-          items: [
-            { id: "g1", text: "The correct reviewers are identified in eClearance based on content type and sensitivity.", badges: ["required"] },
-            { id: "g2", text: "If cross-clearance is needed, it has been identified and noted.", badges: [] },
-            { id: "g3", text: "Supporting materials (tracked changes draft, SME sign-off, Jira tickets) are attached or referenced.", badges: [] },
-            { id: "g4", text: "Submission notes clearly describe what changed from the previous version, or state this is new content.", badges: [] }
-          ]
-        }
-      ];
-
-      function getSavedState() {
-        try {
-          const parsed = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
-
-          const checks =
-            parsed && typeof parsed.checks === "object" && parsed.checks !== null
-              ? parsed.checks
-              : {};
-          const notes =
-            parsed && typeof parsed.notes === "object" && parsed.notes !== null
-              ? parsed.notes
-              : {};
-          const metaSource =
-            parsed && typeof parsed.meta === "object" && parsed.meta !== null
-              ? parsed.meta
-              : {};
-          const uiSource =
-            parsed && typeof parsed.ui === "object" && parsed.ui !== null
-              ? parsed.ui
-              : {};
-
-          // Backward compatibility with v1 flat checkbox-only state.
-          if (Object.keys(checks).length === 0 && parsed && typeof parsed === "object") {
-            Object.keys(parsed).forEach((key) => {
-              if (typeof parsed[key] === "boolean") {
-                checks[key] = parsed[key];
-              }
-            });
-          }
-
-          return {
-            checks,
-            notes,
-            meta: {
-              authorName: typeof metaSource.authorName === "string" ? metaSource.authorName : "",
-              contentTitle: typeof metaSource.contentTitle === "string" ? metaSource.contentTitle : "",
-              contentLink: typeof metaSource.contentLink === "string" ? metaSource.contentLink : "",
-              reviewerName: typeof metaSource.reviewerName === "string" ? metaSource.reviewerName : "",
-              reviewDate: typeof metaSource.reviewDate === "string" ? metaSource.reviewDate : "",
-              reviewSignoff: typeof metaSource.reviewSignoff === "string" ? metaSource.reviewSignoff : ""
-            },
-            ui: {
-              showIncompleteOnly: Boolean(uiSource.showIncompleteOnly),
-              collapsedSectionIds: Array.isArray(uiSource.collapsedSectionIds)
-                ? uiSource.collapsedSectionIds.filter((id) => typeof id === "string")
-                : []
-            }
-          };
-        } catch (_) {
-          return {
-            checks: {},
-            notes: {},
-            meta: {
-              authorName: "",
-              contentTitle: "",
-              contentLink: "",
-              reviewerName: "",
-              reviewDate: "",
-              reviewSignoff: ""
-            },
-            ui: { showIncompleteOnly: false }
-          };
-        }
-      }
-
-      function saveState() {
-        const state = {
-          checks: {},
-          notes: {},
-          meta: {
-            authorName: document.getElementById("author-name").value,
-            contentTitle: document.getElementById("content-title").value,
-            contentLink: document.getElementById("content-link").value,
-            reviewerName: document.getElementById("reviewer-name").value,
-            reviewDate: document.getElementById("review-date").value,
-            reviewSignoff: document.getElementById("review-signoff").value
-          },
-          ui: {
-            showIncompleteOnly,
-            collapsedSectionIds: Array.from(collapsedSections)
-          },
-          lastUpdated: new Date().toISOString()
-        };
-
-        document.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-          state.checks[cb.id] = cb.checked;
-        });
-
-        document.querySelectorAll(".section-note").forEach((noteField) => {
-          state.notes[noteField.id.replace("note-", "")] = noteField.value;
-        });
-
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-      }
-
-      function setFilterButtonState() {
-        document.querySelectorAll(".filter-toggle-btn").forEach((filterBtn) => {
-          filterBtn.setAttribute("aria-pressed", String(showIncompleteOnly));
-          filterBtn.textContent = showIncompleteOnly ? "Show all items" : "Show incomplete only";
-        });
-      }
-
-      function initializeHeaderFields(savedState) {
-        document.getElementById("author-name").value = savedState.meta.authorName || "";
-        document.getElementById("content-title").value = savedState.meta.contentTitle || "";
-        document.getElementById("content-link").value = savedState.meta.contentLink || "";
-        document.getElementById("reviewer-name").value = savedState.meta.reviewerName || "";
-        document.getElementById("review-date").value = savedState.meta.reviewDate || "";
-        document.getElementById("review-signoff").value = savedState.meta.reviewSignoff || "";
-        showIncompleteOnly = Boolean(savedState.ui.showIncompleteOnly);
-        collapsedSections = new Set(savedState.ui.collapsedSectionIds || []);
-        setFilterButtonState();
-      }
-
-      function setCollapseAllButtonsState() {
-        const allCollapsed = sections.every((section) => collapsedSections.has(section.id));
-        document.querySelectorAll(".collapse-all-btn").forEach((btn) => {
-          btn.textContent = allCollapsed ? "Expand all sections" : "Collapse all sections";
-        });
-      }
-
-      function applySectionCollapseState(sectionId) {
-        const sectionEl = document.getElementById("section-" + sectionId);
-        if (!sectionEl) {
-          return;
-        }
-
-        const isCollapsed = collapsedSections.has(sectionId);
-        sectionEl.classList.toggle("section-collapsed", isCollapsed);
-
-        const toggleBtn = sectionEl.querySelector(".section-toggle-btn");
-        if (toggleBtn) {
-          toggleBtn.textContent = isCollapsed ? "Expand" : "Collapse";
-          toggleBtn.setAttribute("aria-expanded", String(!isCollapsed));
-        }
-      }
-
-      function applyAllSectionCollapseState() {
-        sections.forEach((section) => {
-          applySectionCollapseState(section.id);
-        });
-        setCollapseAllButtonsState();
-      }
-
-      function buildSections() {
-        const container = document.getElementById("sections");
-        const savedState = getSavedState();
-
-        sections.forEach((section) => {
-          const div = document.createElement("section");
-          div.className = "section";
-          div.id = "section-" + section.id;
-          div.innerHTML = `
-            <div class="section-header">
-              <span class="section-icon" aria-hidden="true">${section.icon}</span>
-              <p class="section-title">${section.title}</p>
-              <div class="section-actions">
-                <span class="section-count" id="count-${section.id}"></span>
-                <button type="button" class="section-toggle-btn" data-section-id="${section.id}" aria-expanded="true">Collapse</button>
-              </div>
-            </div>
-            <div class="section-content">
-              <div>
-              ${section.items
-                .map(
-                  (item) => `
-                <div class="item" id="wrap-${item.id}" data-item-id="${item.id}">
-                  <input type="checkbox" id="${item.id}" ${savedState.checks[item.id] ? "checked" : ""}>
-                  <label for="${item.id}">
-                    ${item.text}
-                    ${item.badges.includes("required") ? '<span class="badge badge-required">required</span>' : ""}
-                    ${item.badges.includes("escalate") ? '<span class="badge badge-escalate">escalate</span>' : ""}
-                  </label>
-                </div>
-              `
-                )
-                .join("")}
-              </div>
-              <div class="section-note-wrap">
-                <label for="note-${section.id}">${section.title} notes</label>
-                <textarea
-                  class="section-note"
-                  id="note-${section.id}"
-                  placeholder="Add notes, references, reviewer comments, or follow-up actions for this section."
-                >${savedState.notes[section.id] || ""}</textarea>
-              </div>
-              <p class="section-filter-empty">All items in this section are already complete.</p>
-            </div>
-          `;
-          container.appendChild(div);
-        });
-
-        initializeHeaderFields(savedState);
-        applyAllSectionCollapseState();
-      }
-
-      function toggleSectionCollapse(sectionId) {
-        if (collapsedSections.has(sectionId)) {
-          collapsedSections.delete(sectionId);
-        } else {
-          collapsedSections.add(sectionId);
-        }
-
-        applySectionCollapseState(sectionId);
-        setCollapseAllButtonsState();
-        saveState();
-      }
-
-      function handleToggleCollapseAll() {
-        const allCollapsed = sections.every((section) => collapsedSections.has(section.id));
-        if (allCollapsed) {
-          collapsedSections.clear();
-        } else {
-          sections.forEach((section) => {
-            collapsedSections.add(section.id);
-          });
-        }
-
-        applyAllSectionCollapseState();
-        saveState();
-      }
-
-      function applyIncompleteFilter() {
-        sections.forEach((section) => {
-          let visibleItems = 0;
-
-          section.items.forEach((item) => {
-            const cb = document.getElementById(item.id);
-            const wrap = document.getElementById("wrap-" + item.id);
-            if (!cb || !wrap) {
-              return;
-            }
-
-            const shouldHide = showIncompleteOnly && cb.checked;
-            wrap.classList.toggle("filtered-hide", shouldHide);
-            if (!shouldHide) {
-              visibleItems += 1;
-            }
-          });
-
-          const sectionEl = document.getElementById("section-" + section.id);
-          if (sectionEl) {
-            sectionEl.classList.toggle("section-empty", showIncompleteOnly && visibleItems === 0);
-          }
-        });
-      }
-
-      function updateProgress() {
-        const allBoxes = document.querySelectorAll('input[type="checkbox"]');
-        const checked = document.querySelectorAll('input[type="checkbox"]:checked');
-        const total = allBoxes.length;
-        const done = checked.length;
-        const pct = total ? Math.round((done / total) * 100) : 0;
-
-        document.getElementById("progress-fill").style.width = pct + "%";
-        document.getElementById("progress-label").textContent = done + " of " + total + " items";
-
-        allBoxes.forEach((cb) => {
-          const wrap = document.getElementById("wrap-" + cb.id);
-          if (wrap) {
-            wrap.classList.toggle("checked", cb.checked);
-          }
-        });
-
-        sections.forEach((section) => {
-          const sectionBoxes = section.items
-            .map((item) => document.getElementById(item.id))
-            .filter(Boolean);
-          const sectionDone = sectionBoxes.filter((cb) => cb.checked).length;
-          const countEl = document.getElementById("count-" + section.id);
-          if (countEl) {
-            countEl.textContent = sectionDone + "/" + sectionBoxes.length;
-          }
-        });
-
-        const banner = document.getElementById("ready-banner");
-        banner.style.display = done === total && total > 0 ? "flex" : "none";
-
-        applyIncompleteFilter();
-      }
-
-      function resetAll(clearSavedState) {
-        document.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-          cb.checked = false;
-        });
-
-        document.querySelectorAll(".section-note").forEach((noteField) => {
-          noteField.value = "";
-        });
-
-        if (clearSavedState) {
-          localStorage.removeItem(STORAGE_KEY);
-          document.getElementById("author-name").value = "";
-          document.getElementById("content-title").value = "";
-          document.getElementById("content-link").value = "";
-          document.getElementById("reviewer-name").value = "";
-          document.getElementById("review-date").value = "";
-          document.getElementById("review-signoff").value = "";
-          showIncompleteOnly = false;
-          collapsedSections.clear();
-          setFilterButtonState();
-          setCollapseAllButtonsState();
-        } else {
-          saveState();
-        }
-
-        updateProgress();
-      }
-
-      function handleResetChecklists() {
-        resetAll(false);
-      }
-
-      function handleResetForm() {
-        resetAll(true);
-      }
-
-      function handleToggleFilter() {
-        showIncompleteOnly = !showIncompleteOnly;
-        setFilterButtonState();
-        saveState();
-        updateProgress();
-      }
-
-      function handlePrintChecklist() {
-        saveState();
-        window.print();
-      }
-
-      function bindEvents() {
-        document.addEventListener("click", (event) => {
-          const itemEl = event.target.closest(".item");
-          if (!itemEl) {
-            return;
-          }
-
-          if (event.target.tagName.toLowerCase() === "input") {
-            return;
-          }
-
-          const itemId = itemEl.getAttribute("data-item-id");
-          const cb = document.getElementById(itemId);
-          cb.checked = !cb.checked;
-          saveState();
-          updateProgress();
-        });
-
-        document.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
-          cb.addEventListener("change", () => {
-            saveState();
-            updateProgress();
-          });
-        });
-
-        document.querySelectorAll(".section-note").forEach((noteField) => {
-          noteField.addEventListener("input", () => {
-            saveState();
-          });
-        });
-
-        [
-          "author-name",
-          "content-title",
-          "content-link",
-          "reviewer-name",
-          "review-date",
-          "review-signoff"
-        ].forEach((id) => {
-          document.getElementById(id).addEventListener("input", () => {
-            saveState();
-          });
-        });
-
-        document.getElementById("reset-btn").addEventListener("click", handleResetChecklists);
-        document
-          .getElementById("clear-storage-btn")
-          .addEventListener("click", handleResetForm);
-        document.getElementById("filter-btn").addEventListener("click", handleToggleFilter);
-        document.getElementById("collapse-all-btn").addEventListener("click", handleToggleCollapseAll);
-        document.getElementById("print-btn").addEventListener("click", handlePrintChecklist);
-
-        document.querySelectorAll(".section-toggle-btn").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            toggleSectionCollapse(btn.getAttribute("data-section-id"));
-          });
-        });
-      }
-
-      buildSections();
-      bindEvents();
-      updateProgress();
-    </script>
+    <script src="nbs7-preclearance-rubric.js"></script>
   </body>
 </html>
