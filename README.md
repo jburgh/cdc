@@ -16,7 +16,7 @@ This repository is a scalable GitHub Pages site for CDC project materials.
 - `styles/main.css` - shared styling for the hub page
 - `artifacts/` - project artifacts and static outputs
 - `artifacts/preclearance-checklist/` - interactive pre-clearance rubric artifact
-- `artifacts/standalone/` - your current standalone page location
+- `artifacts/resource-links/` - NBS 7 Resource Links page (external references)
 - `apps/` - future web apps or interactive tools
 - `.github/workflows/pages.yml` - deployment workflow
 
@@ -29,9 +29,9 @@ The first artifact is a pre-clearance self-review checklist with:
 - Completion banner
 - Browser persistence using local storage
 
-## Add your current standalone page
+## Manage NBS 7 Resource Links
 
-Replace the contents of `artifacts/standalone/index.html` with your existing HTML.
+Use `artifacts/resource-links/index.html` to maintain external resource links for NBS 7 tools and related documentation sites.
 
 ## Add future apps
 

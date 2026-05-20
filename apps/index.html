@@ -5,12 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Apps</title>
     <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+    <link rel="stylesheet" href="../styles/main.css" />
   </head>
   <body>
-    <h1>Apps</h1>
-    <p>
-      Add future app folders here (for example, apps/dashboard or apps/simulator).
-    </p>
-    <p><a href="../">Back to project hub</a></p>
+    <main class="page">
+      <header class="hero">
+        <p class="eyebrow">Apps</p>
+        <h1>Project Apps</h1>
+        <p>
+          Add future app folders here (for example, `apps/dashboard` or
+          `apps/simulator`) and link each one below.
+        </p>
+        <nav class="hero-links" aria-label="Apps navigation">
+          <a href="../">Back to project hub</a>
+        </nav>
+      </header>
+
+      <section class="cards" aria-label="App placeholders">
+        <article class="card feature-card">
+          <p class="card-tag">Coming soon</p>
+          <h2>Dashboard app</h2>
+          <p>Summary views, checklist status trends, and quick links.</p>
+        </article>
+        <article class="card">
+          <h2>Data viewer app</h2>
+          <p>Place interactive tables, charts, or browse tools here.</p>
+        </article>
+      </section>
+    </main>
   </body>
 </html>
