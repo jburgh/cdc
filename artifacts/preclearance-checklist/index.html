@@ -4,6 +4,11 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>NBS 7 Pre-clearance Checklist</title>
+    <link rel="icon" type="image/svg+xml" href="../../favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;700&display=swap" rel="stylesheet" />
+
     <style>
       :root {
         --bg: #f4f7fb;
@@ -130,6 +135,7 @@
 
       .section-icon {
         font-size: 1rem;
+        flex-shrink: 0;
       }
 
       .section-title {
@@ -376,7 +382,7 @@
   <body>
     <main class="rubric-wrap">
       <header class="rubric-header">
-        <h1>NBS 7 system administrator guide pre-clearance rubric</h1>
+        <h1>NBS 7 Admin Guide pre-clearance rubric</h1>
         <p>
           Complete this checklist before eClearance submission. Required items are
           blocking. Escalate items must be routed before submission.
@@ -450,7 +456,7 @@
       const sections = [
         {
           id: "accuracy",
-          icon: "A",
+          icon: "🔬",
           title: "Technical accuracy",
           items: [
             { id: "a1", text: "All steps, commands, and configurations have been tested or verified against the current NBS 7 environment.", badges: ["required"] },
@@ -462,7 +468,7 @@
         },
         {
           id: "audience",
-          icon: "B",
+          icon: "👥",
           title: "Audience fit (STLT system administrators)",
           items: [
             { id: "b1", text: "Content assumes the reader is a system administrator at a state, tribal, local, or territorial health department, not a developer or CDC staff member.", badges: [] },
@@ -473,18 +479,18 @@
         },
         {
           id: "policy",
-          icon: "C",
+          icon: "🛡",
           title: "CDC policy alignment",
           items: [
             { id: "c1", text: "Content does not contradict current NBS 7 or CDC recommendations, guidelines, or official positions.", badges: ["required"] },
             { id: "c2", text: "If the content describes a change from previous guidance, the change is flagged and the rationale is documented in the submission notes.", badges: ["required"] },
             { id: "c3", text: "No statements imply CDC endorsement of third-party products, vendors, or configurations. References to third-party tools are neutral and descriptive only.", badges: ["required"] },
-            { id: "c4", text: "Content includes credentials, access tokens, access control configurations, or vulnerability details. If yes, stop and contact CDC partners before submitting.", badges: ["escalate"] }
+            { id: "c4", text: "If this content includes credentials, access tokens, access control configurations, or vulnerability details, I have contacted CDC partners before submitting.", badges: ["escalate"] }
           ]
         },
         {
           id: "completeness",
-          icon: "D",
+          icon: "¶",
           title: "Completeness and structure",
           items: [
             { id: "d1", text: "The article has a clear purpose statement or introduction that tells the reader what they will accomplish.", badges: [] },
@@ -496,7 +502,7 @@
         },
         {
           id: "style",
-          icon: "E",
+          icon: "✍",
           title: "Plain language and style",
           items: [
             { id: "e1", text: "Procedures are written in imperative mood (for example, Select the configuration file) and not passive voice.", badges: [] },
@@ -508,7 +514,7 @@
         },
         {
           id: "mechanics",
-          icon: "F",
+          icon: "🔧",
           title: "Mechanics and formatting",
           items: [
             { id: "f1", text: "Spelling and grammar have been checked.", badges: [] },
@@ -520,7 +526,7 @@
         },
         {
           id: "submission",
-          icon: "G",
+          icon: "📤",
           title: "Submission readiness",
           items: [
             { id: "g1", text: "The correct reviewers are identified in eClearance based on content type and sensitivity.", badges: ["required"] },
@@ -740,10 +746,6 @@
 
         const banner = document.getElementById("ready-banner");
         banner.style.display = done === total && total > 0 ? "flex" : "none";
-
-        const printBtn = document.getElementById("print-btn");
-        printBtn.disabled = false;
-        printBtn.title = "Print or save a PDF copy of the checklist";
 
         applyIncompleteFilter();
       }
