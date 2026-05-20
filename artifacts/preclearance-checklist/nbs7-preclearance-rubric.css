@@ -287,6 +287,19 @@ body {
   body { background: #ffffff; font-size: 11pt; }
   .rubric-wrap { max-width: none; margin: 0; padding: 0; }
   .controls, .controls-bottom, .meta-nav, .print-note { display: none; }
+  .form-block,
+  .tier-block,
+  .progress-bar-wrap,
+  #sections-tier1,
+  #sections-tier2,
+  .section,
+  .section-content,
+  .form-grid,
+  .form-grid-2 {
+    display: block !important;
+    visibility: visible !important;
+    overflow: visible !important;
+  }
   .form-block { margin-bottom: 0.9rem; }
   .form-field input,
   .form-field textarea {
@@ -296,12 +309,12 @@ body {
     padding: 0.1rem 0;
     background: #ffffff;
   }
-  .form-field textarea { min-height: 60px; }
+  .form-field textarea { min-height: 60px; height: auto !important; resize: none; overflow: visible !important; }
   .section,
   .progress-bar-wrap,
   .form-block { break-inside: avoid; border-color: #c7d2e5; box-shadow: none; }
   .item:hover { background: transparent; }
   .tier-divider { border-top: 1px solid #c7d2e5; }
-  .section-toggle-btn { display: none; }
-  .section.section-collapsed .section-content { display: block; }
+  .section-toggle-btn { display: none !important; }
+  .section.section-collapsed .section-content { display: block !important; }
 }
