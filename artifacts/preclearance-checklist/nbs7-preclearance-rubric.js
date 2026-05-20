@@ -2,10 +2,6 @@ const STORAGE_KEY = "nbs7_preclearance_checklist_v6";
 let showIncompleteOnly = false;
 let collapsedSections = new Set();
 let printTextareaSnapshots = [];
-const printMirrorFields = [
-  { sourceId: "tracked-changes", mirrorId: "tracked-changes-print" },
-  { sourceId: "submission-notes", mirrorId: "submission-notes-print" }
-];
 
 const tier1Sections = [
   {
@@ -101,6 +97,10 @@ const handoffFields = [
   "jira-tickets", "github-pr", "other-link",
   "tracked-changes", "submission-notes"
 ];
+
+const printMirrorFields = handoffFields.map(function(id) {
+  return { sourceId: id, mirrorId: id + "-print" };
+});
 
 const fieldDefaults = {
   "jira-tickets": "https://cdc-nbs.atlassian.net/browse/STLT-",

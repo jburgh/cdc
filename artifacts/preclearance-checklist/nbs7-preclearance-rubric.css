@@ -323,8 +323,8 @@ body {
   }
   .form-grid-2 {
     display: grid !important;
-    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
-    gap: 0.7rem 0.9rem !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 0.8rem 1rem !important;
     align-items: start;
   }
   .form-field {
@@ -348,11 +348,13 @@ body {
   .form-print-value {
     display: block !important;
     margin-top: 0.15rem;
-    min-height: 60px;
-    padding: 0.35rem 0;
+    min-height: 1.4em;
+    padding: 0.28rem 0 0.42rem;
     border: none;
     border-bottom: 1px solid #aebcd4;
     background: #ffffff;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
   .form-grid,
   .form-grid-2 {
