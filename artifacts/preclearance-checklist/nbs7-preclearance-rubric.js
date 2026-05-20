@@ -154,12 +154,130 @@ function restoreHandoffFields(meta) {
   });
 }
 
+function escapeHtml(text) {
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function formatInlineMarkdown(text) {
+  return escapeHtml(text)
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*])\*([^*\n]+)\*/g, '$1<em>$2</em>')
+    .replace(/(^|[^_])_([^_\n]+)_/g, '$1<em>$2</em>');
+}
+
+function renderMarkdownForPrint(text) {
+  var lines = String(text || "").replace(/\r\n/g, "\n").split("\n");
+  var html = [];
+  var inCodeBlock = false;
+  var codeBuffer = [];
+  var listType = null;
+  var listItems = [];
+
+  function closeList() {
+    if (!listType) return;
+    html.push('<' + listType + ' class="print-md-list">' + listItems.join('') + '</' + listType + '>');
+    listType = null;
+    listItems = [];
+  }
+
+  function flushParagraph(paragraphLines) {
+    var paragraph = paragraphLines.join(' ').trim();
+    if (paragraph) html.push('<p>' + formatInlineMarkdown(paragraph) + '</p>');
+  }
+
+  var paragraphLines = [];
+
+  lines.forEach(function(line) {
+    var trimmed = line.trim();
+
+    if (trimmed.startsWith("```")) {
+      if (inCodeBlock) {
+        html.push('<pre class="print-md-code"><code>' + escapeHtml(codeBuffer.join("\n")) + '</code></pre>');
+        inCodeBlock = false;
+        codeBuffer = [];
+      } else {
+        closeList();
+        flushParagraph(paragraphLines);
+        paragraphLines = [];
+        inCodeBlock = true;
+      }
+      return;
+    }
+
+    if (inCodeBlock) {
+      codeBuffer.push(line);
+      return;
+    }
+
+    var headingMatch = trimmed.match(/^(#{1,6})\s+(.+)$/);
+    var unorderedMatch = trimmed.match(/^[-*+]\s+(.+)$/);
+    var orderedMatch = trimmed.match(/^\d+\.\s+(.+)$/);
+    var blockquoteMatch = trimmed.match(/^>\s+(.+)$/);
+
+    if (!trimmed) {
+      closeList();
+      flushParagraph(paragraphLines);
+      paragraphLines = [];
+      return;
+    }
+
+    if (headingMatch) {
+      closeList();
+      flushParagraph(paragraphLines);
+      paragraphLines = [];
+      html.push('<h3 class="print-md-heading level-' + headingMatch[1].length + '">' + formatInlineMarkdown(headingMatch[2]) + '</h3>');
+      return;
+    }
+
+    if (unorderedMatch || orderedMatch) {
+      flushParagraph(paragraphLines);
+      paragraphLines = [];
+      var nextType = unorderedMatch ? 'ul' : 'ol';
+      var itemText = formatInlineMarkdown((unorderedMatch || orderedMatch)[1]);
+      if (listType && listType !== nextType) closeList();
+      listType = nextType;
+      listItems.push('<li>' + itemText + '</li>');
+      return;
+    }
+
+    if (blockquoteMatch) {
+      closeList();
+      flushParagraph(paragraphLines);
+      paragraphLines = [];
+      html.push('<blockquote class="print-md-quote">' + formatInlineMarkdown(blockquoteMatch[1]) + '</blockquote>');
+      return;
+    }
+
+    closeList();
+    paragraphLines.push(line);
+  });
+
+  if (inCodeBlock) {
+    html.push('<pre class="print-md-code"><code>' + escapeHtml(codeBuffer.join("\n")) + '</code></pre>');
+  }
+
+  closeList();
+  flushParagraph(paragraphLines);
+
+  return html.join('');
+}
+
 function syncPrintMirrors() {
   printMirrorFields.forEach(function(pair) {
     var source = document.getElementById(pair.sourceId);
     var mirror = document.getElementById(pair.mirrorId);
     if (source && mirror) {
-      mirror.textContent = source.value || "";
+      var value = source.value || "";
+      mirror.innerHTML = (source.tagName || "").toLowerCase() === "textarea"
+        ? renderMarkdownForPrint(value)
+        : escapeHtml(value);
     }
   });
 }
