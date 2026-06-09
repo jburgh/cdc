@@ -19,7 +19,7 @@ const tier1Sections = [
     icon: "👥",
     title: "Audience fit (STLT system administrators)",
     items: [
-      { id: "b1", text: "Content is written for system administrators at state, tribal, local, or territorial health departments — not for developers or CDC staff.", badges: [] },
+      { id: "b1", text: "Content is written for the intended audience (system administrators at STLT health departments for admin docs; end users for user-facing docs).", badges: [] },
       { id: "b2", text: "Acronyms are spelled out on first use. CDC-internal acronyms unfamiliar to STLT audiences are defined or avoided.", badges: ["required"] },
       { id: "b3", text: "Content does not assume familiarity with CDC internal systems, organizational structure, or processes.", badges: [] }
     ]
